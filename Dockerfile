@@ -1,20 +1,21 @@
 FROM       ubuntu:trusty
-MAINTAINER Abe Voelker <abe@abevoelker.com>
+MAINTAINER Dennis Schulz <dennis@port42.org>
 
 # Ignore APT warnings about not having a TTY
 ENV DEBIAN_FRONTEND noninteractive
 # Set $PATH so that non-login shells will see the Ruby binaries
-ENV PATH $PATH:/opt/rubies/ruby-2.1.2/bin
+ENV PATH $PATH:/opt/rubies/ruby-2.1.3/bin
 
 # Ensure UTF-8 locale
 RUN echo "LANG=\"en_US.UTF-8\"" > /etc/default/locale
 RUN locale-gen en_US.UTF-8
+RUN locale-gen de_DE.UTF-8
 RUN dpkg-reconfigure locales
 
 RUN apt-get update
 
 # Install build dependencies
-RUN apt-get install -y \
+RUN apt-get install \
   wget \
   build-essential \
   libcurl4-openssl-dev \
@@ -26,6 +27,7 @@ RUN apt-get install -y \
 # Add official git and nginx APT repositories
 RUN apt-add-repository ppa:git-core/ppa
 RUN apt-add-repository ppa:nginx/stable
+
 # Add Chris Lea NodeJS repository
 RUN apt-add-repository ppa:chris-lea/node.js
 
@@ -47,8 +49,11 @@ RUN apt-get update
 # Install git
 RUN apt-get install -y git
 
-# Install MRI Ruby 2.1.2
-RUN ruby-install ruby 2.1.2
+# Disable ri data and ruby doc generation
+RUN echo 'gem: --no-ri --no-rdoc' > ~/.gemrc
+
+# Install MRI Ruby 2.1.3
+RUN ruby-install ruby 2.1.3
 
 # Add Ruby binaries to $PATH
 ADD ./ruby.sh /etc/profile.d/ruby.sh
