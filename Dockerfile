@@ -86,6 +86,9 @@ ADD supervisor.conf /etc/supervisor/conf.d/nginx.conf
 # Clean up APT and temporary files when done
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# remove ruby src from src folder.
+RUN rm -rf /usr/local/src/*
+
 VOLUME ["/data", "/var/log/nginx", "/var/log/supervisor"]
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf", "-n"]
