@@ -12,10 +12,10 @@ RUN locale-gen en_US.UTF-8
 RUN locale-gen de_DE.UTF-8
 RUN dpkg-reconfigure locales
 
-RUN apt-get update
+RUN apt-get update -y
 
 # Install build dependencies
-RUN apt-get install \
+RUN apt-get install -y \
   wget \
   build-essential \
   libcurl4-openssl-dev \
@@ -44,7 +44,7 @@ RUN cd /tmp &&\
   cd ruby-install-0.4.3/ &&\
   make install
 
-RUN apt-get update
+RUN apt-get update -y
 
 # Install git
 RUN apt-get install -y git
