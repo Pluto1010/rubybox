@@ -50,7 +50,7 @@ RUN apt-get update -y
 RUN apt-get install -y git
 
 # Disable ri data and ruby doc generation
-RUN echo 'gem: --no-ri --no-rdoc' > ~/.gemrc
+RUN echo 'gem: --no-rdoc --no-ri' >> /.gemrc
 
 # Install MRI Ruby 2.1.3
 RUN ruby-install ruby 2.1.3
